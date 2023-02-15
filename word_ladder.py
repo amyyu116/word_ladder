@@ -36,9 +36,9 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
     stack.append(start_word)
     queue = deque()
     queue.append(stack)
-    dictionaryf = open(dictionary_file, 'r')
-    dictionarytext = (dictionaryf.read())
-    dictionary = list(dictionarytext.split())
+    with open('words5.dict') as dictionary_file:
+        dictionarytext = dictionary_file.readlines()
+        dictionary = list(set([word.strip() for word in dictionarytext]))
     if start_word == end_word:
         return stack
     if _adjacent(start_word, end_word) is True:
@@ -46,12 +46,14 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
         return stack
     while len(queue) > 0:
         next_stack = queue.popleft()
-        for word in enumerate(dictionary):
-            if _adjacent(word, next_stack[-1]) is True:
+        for word in dictionary:
+            if _adjacent(word, next_stack[-1]) is True and word not in next_stack:
                 if word == end_word:
                     next_stack.append(word)
+                    print(next_stack)
                     return next_stack
-                stack_copy = next_stack
+                    
+                stack_copy = next_stack[:]
                 stack_copy.append(word)
                 queue.append(stack_copy)
                 dictionary.remove(word)
@@ -94,7 +96,9 @@ def _adjacent(word1, word2):
     for i in range(0, len(word1)):
         if word1[i] != word2[i]:
             diff += 1
-    if diff == 1 or diff == 0:
+    if diff<=1:
         return True
     else:
         return False
+
+word_ladder('stone','money')
