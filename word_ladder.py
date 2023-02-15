@@ -51,7 +51,7 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
                 if word == end_word:
                     next_stack.append(word)
                     print(next_stack)
-                    return next_stack   
+                    return next_stack
                 stack_copy = next_stack[:]
                 stack_copy.append(word)
                 queue.append(stack_copy)
